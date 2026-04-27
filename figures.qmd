@@ -8,20 +8,100 @@ editor: visual
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
-2+2
+library (readxl)
+library(httr)
+
+
+url <- "https://github.com/EmaleeFriend/Group-Project/raw/refs/heads/main/Dataset%20Mendeley%20of%20effect%20of%20a%20corn%20silage%20based%20diet.xlsx"
+
+GET(url, write_disk("data.xlsx", overwrite = TRUE))
+dr <- read_excel("data.xlsx")
 ```
 
 You can add options to executable code like this
 
 ```{r}
-#| echo: false
-2 * 2
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+
+cfp <-read_excel ("data.xlsx", sheet = "Carbon Footprint", skip = 1) %>%
+  clean_names()
+
+names(cfp)
+
+cfp <-cfp %>%
+  rename(
+    "digestive tract" =digestive_tract,
+    "maize silage" = maize_silage,
+    "brewer's spend grains" = brewers_spent_grains,
+    "Total feed" = total_feed
+  )
+
+
+cfp <-cfp %>%
+  mutate(
+    calculated_total_feed = concentrate + straw + `maize silage`+ `brewer's spend grains`
+  )
+cfp_long <-cfp %>%
+pivot_longer(
+  cols = c(`digestive tract`, manure, concentrate, straw, `maize silage`, `brewer's spend grains`),
+  names_to = "component",
+  values_to = "kg_CO2eq_animal"
+)
+
+cfp_long <- cfp_long %>%
+  mutate(
+    componenet = recode(
+      component,
+      "digestive tract" = "Digestive tract", 
+      "maize silage" = "Maize silage",
+      "brewers spent grains" = "Brewer's spent grains",
+      
+    )
+  )
+
+cfp_summary <- cfp_long %>%
+  group_by(diet, component) %>%
+  summarise(
+    mean = mean(kg_CO2eq_animal, na.rm = TRUE),
+    sem = sd(kg_CO2eq_animal, na.rm = TRUE) / sqrt(sum(!is.na(kg_CO2eq_animal))),
+    .groups = "drop"
+  )%>%
+  filter(!is.na(mean))
+
+ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
+  geom_col(
+    position = position_dodge(width = 0.75),
+    width = 0.65, 
+    color = "black",
+    linewidth = 0.3
+  ) +
+  geom_errorbar(
+    aes(ymin = mean - sem, ymax = mean + sem),
+    position = position_dodge(width = 0.75),
+    width = 0.18,
+    linewidth = 0.6
+  )+
+  labs(
+    title = "Carbon Footprint Components by Diet",
+    x = "Carbon footprint component",
+    y = expression("kg CO"[2]*"eq/animal"),
+    fill = "Diet"
+  )+
+  theme_classic(base_size = 14) + 
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold",size =16),
+    axis.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 35, hjust = 1),
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 30),
+    legend.title = element_text(face="bold"),
+    legend.position = "right"
+      )
+  
+
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
