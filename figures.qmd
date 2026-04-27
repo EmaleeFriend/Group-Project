@@ -99,7 +99,7 @@ ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
     plot.margin = margin(t = 10, r = 10, b = 10, l = 30),
     legend.title = element_text(face="bold"),
     legend.position = "right"
-      )
+  )
   
 
 ```
