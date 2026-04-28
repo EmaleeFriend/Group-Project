@@ -1,14 +1,28 @@
 ---
-title: "Figures"
+title: "Effect of a Corn Silage-Based Finishing Diet on Carcass Composition and Carbon Footprint of Crossbred Angus Young Bulls"
+author: "Abby Cardwell and Emalee Friend"
 format: html
 editor: visual
+
+execute: 
+  warning: false
+  message: false
 ---
 
-## Quarto
+# Introduction
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+This report evaluates the carbon footprint and the carcass composition of cattle diets using a data set from Mendeley Data.
 
-```{r}
+The data set originates from a study titled "Effect of a Corn Silage-Based Finishing Diet on Growth, Carcass Composition, Meat Quality, Methane Emissions and Carbon Footprint of Crossbred Angus Young Bulls"
+
+# Data Source
+
+The data set was accessed from Mendeley Data:
+
+Soares, D. M., Bernardino, S., Rodrigues, N., Gama, I., Almeida, J. M., Teixeira, R. F. M., Santos-Silva, J., Alves, S. P., Domingos, T., Martin, C., Marques, G. M., & Bessa, R. J. B. (2025). Data set on growth, carcass composition, meat quality, methane emissions and carbon footprint of crossbred Angus young bulls. \[Data set\]. Mendeley Data. <https://doi.org/10.17632/JCR7ZY93PR>
+
+```{r setup, message= FALSE, warning= FALSE, results='hide', include=FALSE}
+
 library (readxl)
 library(httr)
 
@@ -19,9 +33,21 @@ GET(url, write_disk("data.xlsx", overwrite = TRUE))
 dr <- read_excel("data.xlsx")
 ```
 
-You can add options to executable code like this
+# Data Cleaning
 
-```{r}
+The data set required several pre-processing steps:
+
+-   Column names were standardized using 'janitor'
+
+-   Variables were renamed for clarity and consistency
+
+-   A new variable 'calculated_total_feed' was created
+
+-   Data was reshaped from wide to long format for visualization
+
+These steps ensured compatibility with tidyverse workflows and improved interpretability.
+
+```{r include=FALSE}
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -36,18 +62,18 @@ cfp <-cfp %>%
   rename(
     "digestive tract" =digestive_tract,
     "maize silage" = maize_silage,
-    "brewer's spend grains" = brewers_spent_grains,
+    "brewer's spent grains" = brewers_spent_grains,
     "Total feed" = total_feed
   )
 
 
 cfp <-cfp %>%
   mutate(
-    calculated_total_feed = concentrate + straw + `maize silage`+ `brewer's spend grains`
+    calculated_total_feed = concentrate + straw + `maize silage`+ `brewer's spent grains`
   )
 cfp_long <-cfp %>%
 pivot_longer(
-  cols = c(`digestive tract`, manure, concentrate, straw, `maize silage`, `brewer's spend grains`),
+  cols = c(`digestive tract`, manure, concentrate, straw, `maize silage`, `brewer's spent grains`),
   names_to = "component",
   values_to = "kg_CO2eq_animal"
 )
@@ -72,6 +98,28 @@ cfp_summary <- cfp_long %>%
   )%>%
   filter(!is.na(mean))
 
+
+  
+
+```
+
+# Original Figure Critique
+
+The original manuscript table had several limitations:
+
+The data is presented in kg CO2 eq/kg live weight gain, kg CO2 eq/kg carcass weight, and kg CO2 eq/kg carcass protein. Their lack of visual separation between sections makes the chart hard to read. By dividing up the live weight, carcass weight, and carcass protein sections into 3 figures (only live weight is shown) and dividing up the sections into spent grains, concentrate, digestive tract, maize silage, manure, and straw make the displays more informative.
+
+![](table 9.jpg)
+
+# New Figure
+
+-The new figure clearly separates diet treatments using color
+
+-Displays variability with error bars
+
+-Allows for rapid visual comparison of emission components
+
+```{r echo=FALSE}
 ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
   geom_col(
     position = position_dodge(width = 0.75),
@@ -100,8 +148,4 @@ ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
     legend.title = element_text(face="bold"),
     legend.position = "right"
   )
-  
-
 ```
-
-The `echo: false` option disables the printing of code (only output is displayed).
