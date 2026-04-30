@@ -109,7 +109,7 @@ The original manuscript table had several limitations:
 
 The data is presented in kg CO2 eq/kg live weight gain, kg CO2 eq/kg carcass weight, and kg CO2 eq/kg carcass protein. Their lack of visual separation between sections makes the chart hard to read. By dividing up the live weight, carcass weight, and carcass protein sections into 3 figures (only live weight is shown) and dividing up the sections into spent grains, concentrate, digestive tract, maize silage, manure, and straw make the displays more informative.
 
-![](table 9.jpg)
+![](table%209.jpg)
 
 # New Figure
 
