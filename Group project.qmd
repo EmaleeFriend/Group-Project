@@ -1,0 +1,44 @@
+---
+title: "Group Project"
+author: Abby Cardwell and Emalee Friend
+format: html
+editor: visual
+---
+
+## Quarto
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+library(readxl)
+library(ggplot2)
+library(dplyr)
+
+data <-read_excel("~/OneDrive - Oklahoma A and M System/Interpreting food and animal science research/data set for color.xlsx")
+
+ggplot(data, aes(x = Diet, y = L, fill = Diet)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "L Values by Diet", y = "L*", x = "Diet")
+
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = Diet, y = a, fill = Diet)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "a Values by Diet", y = "a*", x = "Diet")
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = Diet, y = b, fill = Diet)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "b Values by Diet", y = "b*", x = "Diet")
+```
