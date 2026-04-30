@@ -56,6 +56,8 @@ library(janitor)
 cfp <-read_excel ("data.xlsx", sheet = "Carbon Footprint", skip = 1) %>%
   clean_names()
 
+data <-read_excel("data.xlsx", sheet = "Meat color")
+
 names(cfp)
 
 cfp <-cfp %>%
@@ -109,7 +111,7 @@ The original manuscript table had several limitations:
 
 The data is presented in kg CO2 eq/kg live weight gain, kg CO2 eq/kg carcass weight, and kg CO2 eq/kg carcass protein. Their lack of visual separation between sections makes the chart hard to read. By dividing up the live weight, carcass weight, and carcass protein sections into 3 figures (only live weight is shown) and dividing up the sections into spent grains, concentrate, digestive tract, maize silage, manure, and straw make the displays more informative.
 
-![](table 9.jpg)
+![](table%209.jpg)
 
 # New Figure
 
@@ -148,4 +150,33 @@ ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
     legend.title = element_text(face="bold"),
     legend.position = "right"
   )
+```
+
+data \<-read_excel("\~/OneDrive - Oklahoma A and M System/Interpreting food and animal science research/data set for color.xlsx")
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = Diet, y = L, fill = Diet)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "L Values by Diet", y = "L*", x = "Diet")
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = Diet, y = a, fill = Diet)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "a Values by Diet", y = "a*", x = "Diet")
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = Diet, y = b, fill = Diet)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "b Values by Diet", y = "b*", x = "Diet")
 ```
