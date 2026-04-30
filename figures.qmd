@@ -152,7 +152,9 @@ ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
   )
 ```
 
-```{r}
+
+```{r echo=FALSE}
+
 library(ggplot2)
 
 ggplot(data, aes(x = Diet, y = L, fill = Diet)) +
@@ -161,7 +163,7 @@ ggplot(data, aes(x = Diet, y = L, fill = Diet)) +
   labs(title = "L Values by Diet", y = "L*", x = "Diet")
 ```
 
-```{r}
+```{r echo=FALSE}
 library(ggplot2)
 
 ggplot(data, aes(x = Diet, y = a, fill = Diet)) +
@@ -170,8 +172,9 @@ ggplot(data, aes(x = Diet, y = a, fill = Diet)) +
   labs(title = "a Values by Diet", y = "a*", x = "Diet")
 ```
 
-```{r}
+```{r echo=FALSE}
 library(ggplot2)
+
 
 ggplot(data, aes(x = Diet, y = b, fill = Diet)) +
   geom_boxplot() +

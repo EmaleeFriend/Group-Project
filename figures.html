@@ -8,7 +8,7 @@
 
 <meta name="author" content="Abby Cardwell and Emalee Friend">
 
-<title>Effect of a Corn Silage-Based Finishing Diet on Carcass Composition and Carbon Footprint of Crossbred Angus Young Bulls</title>
+<title>Effect of a Corn Silage-Based Finishing Diet on Carcass Color and Carbon Footprint of Crossbred Angus Young Bulls</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,7 +35,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="figures_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="figures_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="figures_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="figures_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="figures_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -83,7 +48,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Effect of a Corn Silage-Based Finishing Diet on Carcass Composition and Carbon Footprint of Crossbred Angus Young Bulls</h1>
+<h1 class="title">Effect of a Corn Silage-Based Finishing Diet on Carcass Color and Carbon Footprint of Crossbred Angus Young Bulls</h1>
 </div>
 
 
@@ -108,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>This report evaluates the carbon footprint and the carcass composition of cattle diets using a data set from Mendeley Data.</p>
+<p>This report evaluates the carbon footprint and the carcass color of cattle diets using a data set from Mendeley Data.</p>
 <p>The data set originates from a study titled “Effect of a Corn Silage-Based Finishing Diet on Growth, Carcass Composition, Meat Quality, Methane Emissions and Carbon Footprint of Crossbred Angus Young Bulls”</p>
 </section>
 <section id="data-source" class="level1">
@@ -127,14 +92,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>These steps ensured compatibility with tidyverse workflows and improved interpretability.</p>
 </section>
-<section id="original-figure-critique" class="level1">
-<h1>Original Figure Critique</h1>
+<section id="original-carbon-footprint-figure-critique" class="level1">
+<h1>Original Carbon Footprint Figure Critique</h1>
 <p>The original manuscript table had several limitations:</p>
 <p>The data is presented in kg CO2 eq/kg live weight gain, kg CO2 eq/kg carcass weight, and kg CO2 eq/kg carcass protein. Their lack of visual separation between sections makes the chart hard to read. By dividing up the live weight, carcass weight, and carcass protein sections into 3 figures (only live weight is shown) and dividing up the sections into spent grains, concentrate, digestive tract, maize silage, manure, and straw make the displays more informative.</p>
 <p><img src="table%209.jpg" class="img-fluid"></p>
 </section>
-<section id="new-figure" class="level1">
-<h1>New Figure</h1>
+<section id="new-carbon-footprint-figure" class="level1">
+<h1>New Carbon Footprint Figure</h1>
 <p>-The new figure clearly separates diet treatments using color</p>
 <p>-Displays variability with error bars</p>
 <p>-Allows for rapid visual comparison of emission components</p>
@@ -148,12 +113,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Diet, <span class="at">y =</span> L, <span class="at">fill =</span> Diet)) <span class="sc">+</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"L Values by Diet"</span>, <span class="at">y =</span> <span class="st">"L*"</span>, <span class="at">x =</span> <span class="st">"Diet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -163,12 +122,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Diet, <span class="at">y =</span> a, <span class="at">fill =</span> Diet)) <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"a Values by Diet"</span>, <span class="at">y =</span> <span class="st">"a*"</span>, <span class="at">x =</span> <span class="st">"Diet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -178,12 +131,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Diet, <span class="at">y =</span> b, <span class="at">fill =</span> Diet)) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"b Values by Diet"</span>, <span class="at">y =</span> <span class="st">"b*"</span>, <span class="at">x =</span> <span class="st">"Diet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
