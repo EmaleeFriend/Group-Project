@@ -1,5 +1,5 @@
 ---
-title: "Effect of a Corn Silage-Based Finishing Diet on Carcass Composition and Carbon Footprint of Crossbred Angus Young Bulls"
+title: "Effect of a Corn Silage-Based Finishing Diet on Carcass Color and Carbon Footprint of Crossbred Angus Young Bulls"
 author: "Abby Cardwell and Emalee Friend"
 format: html
 editor: visual
@@ -11,7 +11,7 @@ execute:
 
 # Introduction
 
-This report evaluates the carbon footprint and the carcass composition of cattle diets using a data set from Mendeley Data.
+This report evaluates the carbon footprint and the carcass color of cattle diets using a data set from Mendeley Data.
 
 The data set originates from a study titled "Effect of a Corn Silage-Based Finishing Diet on Growth, Carcass Composition, Meat Quality, Methane Emissions and Carbon Footprint of Crossbred Angus Young Bulls"
 
@@ -105,7 +105,7 @@ cfp_summary <- cfp_long %>%
 
 ```
 
-# Original Figure Critique
+# Original Carbon Footprint Figure Critique
 
 The original manuscript table had several limitations:
 
@@ -113,7 +113,7 @@ The data is presented in kg CO2 eq/kg live weight gain, kg CO2 eq/kg carcass wei
 
 ![](table%209.jpg)
 
-# New Figure
+# New Carbon Footprint Figure
 
 -The new figure clearly separates diet treatments using color
 
@@ -151,8 +151,6 @@ ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
     legend.position = "right"
   )
 ```
-
-data \<-read_excel("\~/OneDrive - Oklahoma A and M System/Interpreting food and animal science research/data set for color.xlsx")
 
 ```{r}
 library(ggplot2)
