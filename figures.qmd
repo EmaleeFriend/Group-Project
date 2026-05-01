@@ -1,17 +1,23 @@
 ---
-title: "Effect of a Corn Silage-Based Finishing Diet on Carcass Color and Carbon Footprint of Crossbred Angus Young Bulls"
+title: "Effect of a Corn Silage-Based Finishing Diet on Meat Color and Carbon Footprint of Crossbred Angus Young Bulls"
 author: "Abby Cardwell and Emalee Friend"
-format: html
+
+format: 
+  html:
+    code-fold: true
+    code-summary: "Show Code"
 editor: visual
 
 execute: 
   warning: false
   message: false
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Introduction
 
-This report evaluates the carbon footprint and the carcass color of cattle diets using a data set from Mendeley Data.
+This report evaluates the carbon footprint and the meat color of cattle diets using a data set from Mendeley Data.
 
 The data set originates from a study titled "Effect of a Corn Silage-Based Finishing Diet on Growth, Carcass Composition, Meat Quality, Methane Emissions and Carbon Footprint of Crossbred Angus Young Bulls"
 
@@ -56,7 +62,7 @@ library(janitor)
 cfp <-read_excel ("data.xlsx", sheet = "Carbon Footprint", skip = 1) %>%
   clean_names()
 
-data <-read_excel("data.xlsx", sheet = "Meat color")
+meat_color <-read_excel("data.xlsx", sheet = "Meat color")
 
 names(cfp)
 
@@ -68,7 +74,20 @@ cfp <-cfp %>%
     "Total feed" = total_feed
   )
 
-
+cfp_weight<- cfp %>%
+  mutate(
+    total_carbon = `digestive tract` + manure + `Total feed`,
+    live_weight = case_when(
+      diet =="Control" ~626.81,
+      diet =="TMR" ~ 615.44
+    ),
+    carcass_weight = case_when(
+      diet == "Control" ~353.52,
+      diet == "TMR" ~ 340.81
+    ),
+    CO2_liveweight = `Total feed` /live_weight,
+    CO2_carcass_weight = `Total feed` /carcass_weight
+  )
 cfp <-cfp %>%
   mutate(
     calculated_total_feed = concentrate + straw + `maize silage`+ `brewer's spent grains`
@@ -109,19 +128,59 @@ cfp_summary <- cfp_long %>%
 
 The original manuscript table had several limitations:
 
-The data is presented in kg CO2 eq/kg live weight gain, kg CO2 eq/kg carcass weight, and kg CO2 eq/kg carcass protein. Their lack of visual separation between sections makes the chart hard to read. By dividing up the live weight, carcass weight, and carcass protein sections into 3 figures (only live weight is shown) and dividing up the sections into spent grains, concentrate, digestive tract, maize silage, manure, and straw make the displays more informative.
+The data is presented in kg CO2 eq/kg live weight gain, kg CO2 eq/kg carcass weight, and kg CO2 eq/kg carcass protein. Their lack of visual separation between sections makes the chart hard to read. By dividing up the live weight, carcass weight, and carcass protein sections into 3 figures would make chart easier to read. Also by dividing up the sections into spent grains, concentrate, digestive tract, maize silage, manure, and straw make the displays more informative.
 
 ![](table%209.jpg)
 
-# New Carbon Footprint Figure
+# New Carbon Footprint Figures
 
--The new figure clearly separates diet treatments using color
+The Mendeley Data did not include carcass protein values; therefore, figures were created only for kg CO2 eq/kg of live weight and kg CO2 eq/kg carcass weight.
 
--Displays variability with error bars
+In addition, a separate figure was created to show CO2 eg/kg by emission source, including feed components, manure, and digestive tract emisisons.
 
--Allows for rapid visual comparison of emission components
+The revised figures improve interpretation by:
 
-```{r echo=FALSE}
+-   Clearly separating diet treatments using color
+
+-   Displaying variability with error bars
+
+-   Allowing rapid visual comparison among emission components
+
+```{r}
+ggplot(cfp_weight, aes(x=diet, y=CO2_liveweight, fill = diet))+
+  stat_summary (fun = mean, geom = "col", color = "black", width = 0.6)+
+  stat_summary(fun.data=mean_se, geom = "errorbar", width = 0.2)+
+        labs(
+           title = "Carbon Footprint per kg Live Weight",
+           x="Diet",
+           y = expression ("kg CO"[2]*"eg/kg live weight")
+           )+
+         theme_classic(base_size = 14) +
+         theme(
+           plot.title = element_text (hjust = 0.5, face ="bold", size =16),
+           axis.title = element_text(face="bold"),
+           legend.position = "none"
+         )
+```
+
+```{r}
+ggplot(cfp_weight, aes(x=diet, y=CO2_carcass_weight, fill = diet))+
+  stat_summary (fun = mean, geom = "col", color = "black", width = 0.6)+
+  stat_summary(fun.data=mean_se, geom = "errorbar", width = 0.2)+
+        labs(
+           title = "Carbon Footprint per kg Carcass Weight",
+           x="Diet",
+           y = expression ("kg CO"[2]*"eg/kg carcass weight")
+           )+
+         theme_classic(base_size = 14) +
+         theme(
+           plot.title = element_text (hjust = 0.5, face ="bold", size =16),
+           axis.title = element_text(face="bold"),
+           legend.position = "none"
+         )
+```
+
+```{r}
 ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
   geom_col(
     position = position_dodge(width = 0.75),
@@ -152,7 +211,7 @@ ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
   )
 ```
 
-# Original Color Chart Critique
+# Original Meat Color Chart Critique
 
 The original manuscript table had several limitations:
 
@@ -160,18 +219,36 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ![](Table 6.jpg)
 
-# New Color Figures
+# New Meat Color Figures
 
-```{r echo=FALSE}
+```{r}
 
-library(ggplot2)
 
-ggplot(data, aes(x = Diet, y = L, fill = Diet)) +
+
+ggplot(meat_color, aes(x = Diet, y = L, fill = Diet)) +
   geom_boxplot() +
 
-  labs(title = "L Values by Diet", y = "L*", x = "Diet")
-
+  labs(title = "L* Values by Diet", y = "L*", x = "Diet")+
  theme_classic(base_size = 14) + 
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold",size =16),
+    axis.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 35, hjust = 1),
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 30),
+    legend.title = element_text(face="bold"),
+    legend.position = "right"
+  )
+
+```
+
+```{r}
+
+
+ggplot(meat_color, aes(x = Diet, y = a, fill = Diet)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(title = "a* Values by Diet", y = "a*", x = "Diet")+
+   theme_classic(base_size = 14) + 
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold",size =16),
     axis.title = element_text(face = "bold"),
@@ -182,21 +259,21 @@ ggplot(data, aes(x = Diet, y = L, fill = Diet)) +
   )
 ```
 
-```{r echo=FALSE}
-library(ggplot2)
+```{r}
 
-ggplot(data, aes(x = Diet, y = a, fill = Diet)) +
+
+
+ggplot(meat_color, aes(x = Diet, y = b, fill = Diet)) +
   geom_boxplot() +
   theme_minimal() +
-  labs(title = "a Values by Diet", y = "a*", x = "Diet")
-```
-
-```{r echo=FALSE}
-library(ggplot2)
-
-
-ggplot(data, aes(x = Diet, y = b, fill = Diet)) +
-  geom_boxplot() +
-  theme_minimal() +
-  labs(title = "b Values by Diet", y = "b*", x = "Diet")
+  labs(title = "b* Values by Diet", y = "b*", x = "Diet")+
+   theme_classic(base_size = 14) + 
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold",size =16),
+    axis.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 35, hjust = 1),
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 30),
+    legend.title = element_text(face="bold"),
+    legend.position = "right"
+  )
 ```
