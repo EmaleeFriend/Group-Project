@@ -215,7 +215,7 @@ ggplot(cfp_summary, aes(x = component, y = mean, fill = diet)) +
 
 The original manuscript table had several limitations:
 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+The data for the L, a, and b values were only given in the table below. We thought data like this would be better shown in a box plot graph. It also separates the L, a, and b values from the other color scores. The graphs make the data look more streamlined and easier to comprehend.
 
 ![](Table 6.jpg)
 
